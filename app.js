@@ -134,20 +134,20 @@ var UIController = (function () {
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
         // after user enters description & value and has pressed enter or the 'tick' button, want to clear those two fields:
-        clearFields: function() {
+        clearFields: function () {
             var fields = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
             // no idea what is going on here
             // turning fields into an array using the .slice() property
             // calls the .slice property by using the prototype propery of the Array object?
-            
+
             var fieldsArray = Array.prototype.slice.call(fields);
-            
-            fieldsArray.forEach(function(current, index, array) {
+
+            fieldsArray.forEach(function (current, index, array) {
                 current.value = "";
             });
-           // after clearing, set cursor/focus back in the description box 
-           fieldsArray[0].focus();
-              
+            // after clearing, set cursor/focus back in the description box 
+            fieldsArray[0].focus();
+
         },
 
 
