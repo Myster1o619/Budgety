@@ -1,0 +1,64 @@
+1. controller.init() - initialize the program
+	=> setupEventListeners();
+	
+2. User enters:
+- type of input - expense or income
+- description for the input
+- total for the input
+
+Input is gathered using DOM manipulation
+input is stored in DOMStrings (UIController)
+DOMStrings made accessible via getDOMStrings function
+
+3. input is added and stored via ctrlAddItem();
+
+4. ctrlAddItem() = function
+
+declares variables: input 
+input gets the data from getInput() (simply returns DOM manipulation data)
+
+a newItem is created
+
+5. newItem = budgetCtrl.addItem(input.type, input.description, input.value)
+data from DOM manipulation is stored in the budgetController
+
+6. addItem receives input.type, input.description, input.value
+(addItem is in budgetController)
+
+7. addItem function with 3 arguments (type, des, val)
+type relates to income or expense
+
+2 new variables declared:
+
+newItem and ID
+Once newItem is created with ID, either new Expense or new Income is created
+Expense and Income have id, description, value
+
+8. budgetController declares variable 'data' - which is an object
+
+data contain an object allItems which is an object storing
+2 more objects, which are arrays 
+These array store all expenses and all incomes
+
+9 when an item is added via addItem, a new ID for the item (income/expense)
+is created:
+
+if there are no items (be it income or expense) in the allItems array,
+the ID for the newly added item is set to zero
+
+if there ARE items in the array (be in income or expense) then the ID
+for the newly added item is calculated
+
+10. in the addItem function (type, des, val)
+
+if type === 'exp' a new Expense item is created
+if type === 'inc' a new Income item is created
+
+11. this new item is then added to the relevant array
+
+12. this new item is returned
+
+
+
+
+
