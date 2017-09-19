@@ -17,6 +17,17 @@ var budgetController = (function () {
         this.value = value;
     };
 
+    var calculateTotal = function (type) {
+        var sum = 0;
+        //sort array according to inc or exp
+        data.allItems[type].forEach(function (current) {
+            sum = sum + current.value;
+        });
+        data.totals[type] = sum;
+    };
+
+
+    //global data model:
     var data = { // data = object
         allItems: { // is allItems just an object inside another object? YES
             // allItems is an object containing 2 more objects (2 arrays)
@@ -28,7 +39,10 @@ var budgetController = (function () {
         totals: { // is totals just an object inside another object?  YES
             exp: 0, // store total expense
             inc: 0 // store total income
-        }
+        },
+
+        budget: 0,
+        percentage: -1
 
     };
 
@@ -70,7 +84,40 @@ var budgetController = (function () {
 
             // return the new element
             return newItem;
+        },
+
+        calculateBudget: function () {
+
+            // calculate total income & expenses
+            calculateTotal('exp');
+            calculateTotal('inc');
+
+            // calculate the budget: income - expenses
+            data.budget = data.totals.inc - data.totals.exp;
+
+            // calculate the percentage of income that we have spent - only calculate if income is > 0
+            if (data.totals.inc > 0) {
+                data.percentage = Math.round((data.totals.exp / data.totals.inc) * 100);
+            } else {
+                data.percentage = -1;
+            }
+
+        },
+
+        getBudget: function () {
+            return {
+                budget: data.budget,
+                totalInc: data.totals.inc,
+                totalExp: data.totals.exp,
+                percentage: data.percentage
+            };
+
+        },
+
+        testing: function () {
+            console.log(data);
         }
+
     };
 
 
@@ -191,10 +238,13 @@ var controller = (function (budgetCtrl, UICtrl) {
     var updateBudget = function () {
 
         //1 Calculate the budget
+        budgetCtrl.calculateBudget();
 
         //2 Return the budget
+        var budget = budgetCtrl.getBudget();
 
         //3 Display the budget in the UI
+        console.log(budget);
     };
 
 
@@ -222,6 +272,7 @@ var controller = (function (budgetCtrl, UICtrl) {
             // 4. Clear the fields
             UICtrl.clearFields();
             // 5. calculate and update the budget
+            updateBudget();
 
         }
 
