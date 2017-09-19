@@ -99,7 +99,8 @@ var UIController = (function () {
                 type: document.querySelector(DOMStrings.inputType).value,
                 //will be either inc or exp 
                 description: document.querySelector(DOMStrings.inputDescription).value,
-                value: document.querySelector(DOMStrings.inputValue).value
+                //convert string into number for calculations
+                value: parseFloat(document.querySelector(DOMStrings.inputValue).value)
                 // so type, description, and value are all objects?
                 // or are they just properties?
 
@@ -185,7 +186,17 @@ var controller = (function (budgetCtrl, UICtrl) {
         });
 
     };
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    var updateBudget = function () {
+
+        //1 Calculate the budget
+
+        //2 Return the budget
+
+        //3 Display the budget in the UI
+    };
+
 
 
     var ctrlAddItem = function () {
@@ -196,21 +207,25 @@ var controller = (function (budgetCtrl, UICtrl) {
         input = UICtrl.getInput(); // get input values user enters into the html classes
         //getInput() simply returns some values, so needs to be assigned to a variable (var = input)
 
-        // 2. add the item to the budget controller
-        newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-        //addItem function found in budgetController
-        //addItem returns an object (newItem)
-        //so since the addItem function simply returns something in budgetController, need to assign it to a value 
+        if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+
+            // 2. add the item to the budget controller
+            newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+            //addItem function found in budgetController
+            //addItem returns an object (newItem)
+            //so since the addItem function simply returns something in budgetController, need to assign it to a value 
 
 
-        // 3. add the item to the UI 
-        UICtrl.addListItem(newItem, input.type);
+            // 3. add the item to the UI 
+            UICtrl.addListItem(newItem, input.type);
 
-        // 4. Clear the fields
-        UICtrl.clearFields();
-        // 5. calculate the budget
+            // 4. Clear the fields
+            UICtrl.clearFields();
+            // 5. calculate and update the budget
 
-        // 6. display budget on the UI
+        }
+
+
     };
 
     return {
