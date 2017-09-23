@@ -227,6 +227,13 @@ var UIController = (function () {
             // insert the html into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
+
+        deleteListItem: function(selectorID) {
+
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
+        },
+
         // after user enters description & value and has pressed enter or the 'tick' button, want to clear those two fields:
         clearFields: function () {
             var fields = document.querySelectorAll(DOMStrings.inputDescription + ', ' + DOMStrings.inputValue);
@@ -356,8 +363,10 @@ var controller = (function (budgetCtrl, UICtrl) {
             budgetCtrl.deleteItem(type, ID);
 
             // 2. delete the item from the UI
+            UICtrl.deleteListItem(itemID);
 
             // 3. update and show the new budget
+            updateBudget();
         }
     };
 
