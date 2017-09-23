@@ -85,6 +85,47 @@ var budgetController = (function () {
             return newItem;
         },
 
+        deleteItem: function (type, id) {
+
+            // the map() method creates a new array with the results of calling a 
+            // provided function on every element in the calling array
+            // Example:
+            // var numbers = [1, 2, 3, 4, 5];
+            // var doubles = numbers.map(function(x) {
+            // return x * 2
+            // });
+            // doubles now equals [2, 4, 6, 8, 10]
+            // numbers STILL EQUALS [1, 2, 3, 4, 5]
+            var ids = data.allItems[type].map(function(current) { 
+                return current.id;
+            });
+            
+            var index = ids.indexOf(id);
+
+            /* splice() method changes contents of array by removing existing elements
+            and/or adding new elements
+            var myFish = ['angel', 'clown', 'mandarin', 'sturgeon'];
+            myFish.splce(2, 0, 'drum'); // insert 'drum' @ 2-index position 
+            myFish becomes: ['angel', 'clown', 'drum', 'mandarin', 'sturgeon'];
+            
+            myFish.splce(2, 1) // remove 1 item @ 2-index position
+            myFish becomes: ['angel', 'clown', 'mandarin', 'sturgeon'];
+            
+            SYNTAX:
+            array.splce(start, deleteCount, item1, item2, ...);
+            deleteCount and items are optional
+
+            If deleteCount = 0, no items are removed
+            In this case, should specific at least one new item to add
+            to the array
+            */
+
+            if (index !== -1) {
+                data.allItems[type].splice(index, 1);
+            }
+
+        },
+
         calculateBudget: function () {
 
             // calculate total income & expenses
@@ -300,7 +341,7 @@ var controller = (function (budgetCtrl, UICtrl) {
 
     };
 
-    var ctrlDeleteItem = function(event) {
+    var ctrlDeleteItem = function (event) {
 
         var itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
 
@@ -309,9 +350,10 @@ var controller = (function (budgetCtrl, UICtrl) {
             //inc-1
             var splitID = itemID.split('-');
             var type = splitID[0];
-            var ID = splitID[1];
+            var ID = parseInt(splitID[1]);
 
             // 1. delete the item from the data structrure
+            budgetCtrl.deleteItem(type, ID);
 
             // 2. delete the item from the UI
 
