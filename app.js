@@ -26,7 +26,6 @@ var budgetController = (function () {
         data.totals[type] = sum;
     };
 
-
     //global data model:
     var data = { // data = object
         allItems: { // is allItems just an object inside another object? YES
@@ -49,7 +48,7 @@ var budgetController = (function () {
     return {
         addItem: function (type, des, val) { // type is either 'exp' or 'inc' (expense / income)
             // type here relates to income/expense - which is used by allItems above (which stores exp and inc)
-            //addItem is a function w/ 3 arguments 
+            //addItem is a function w/ 3 arguments
             //when this is called by budgetCtrl.addItem - passes 3 arguments:
             //input.type
             //input.description
@@ -150,7 +149,7 @@ var UIController = (function () {
             return {
 
                 type: document.querySelector(DOMStrings.inputType).value,
-                //will be either inc or exp 
+                //will be either inc or exp
                 description: document.querySelector(DOMStrings.inputDescription).value,
                 //convert string into number for calculations
                 value: parseFloat(document.querySelector(DOMStrings.inputValue).value)
@@ -199,7 +198,7 @@ var UIController = (function () {
             fieldsArray.forEach(function (current, index, array) {
                 current.value = "";
             });
-            // after clearing, set cursor/focus back in the description box 
+            // after clearing, set cursor/focus back in the description box
             fieldsArray[0].focus();
 
         },
@@ -220,7 +219,7 @@ var UIController = (function () {
 
 
         getDOMStrings: function () {
-            return DOMStrings; // make object's items public? 
+            return DOMStrings; // make object's items public?
         }
 
     };
@@ -233,12 +232,12 @@ var controller = (function (budgetCtrl, UICtrl) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     var setupEventListeners = function () {
 
-        var DOM = UICtrl.getDOMStrings(); // get object DOMStrings to access the html classes 
+        var DOM = UICtrl.getDOMStrings(); // get object DOMStrings to access the html classes
         // getDOMStrings() simply returns something, so need to assign a variable to it?
         // getDOMStrings returns inputType, inputDescription, inputValue via DOM manipulation
 
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
-        // the arrow tick button to add an item 
+        // the arrow tick button to add an item
 
         document.addEventListener('keypress', function (event) {
 
@@ -285,10 +284,10 @@ var controller = (function (budgetCtrl, UICtrl) {
             newItem = budgetCtrl.addItem(input.type, input.description, input.value);
             //addItem function found in budgetController
             //addItem returns an object (newItem)
-            //so since the addItem function simply returns something in budgetController, need to assign it to a value 
+            //so since the addItem function simply returns something in budgetController, need to assign it to a value
 
 
-            // 3. add the item to the UI 
+            // 3. add the item to the UI
             UICtrl.addListItem(newItem, input.type);
 
             // 4. Clear the fields
@@ -300,22 +299,22 @@ var controller = (function (budgetCtrl, UICtrl) {
 
 
     };
-    
+
     var ctrlDeleteItem = function(event) {
-      
+
         var itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
-        
+
         if (itemID) {
-            
+
             //inc-1
             var splitID = itemID.split('-');
             var type = splitID[0];
             var ID = splitID[1];
-            
+
             // 1. delete the item from the data structrure
-            
+
             // 2. delete the item from the UI
-            
+
             // 3. update and show the new budget
         }
     };
