@@ -213,6 +213,7 @@ var UIController = (function () {
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
         expensesPercentageLabel: '.item__percentage',
+        dateLabel: '.budget__title--month',
     };
 
     var formatNumber = function (num, type) {
@@ -248,6 +249,12 @@ var UIController = (function () {
         return (type === 'inc' ? '+ ' : '- ') + int + '.' + dec;
 
 
+    };
+
+    var nodeListForEach = function(list, callback) {
+        for (var i = 0; i < list.length; i++) {
+            callback(list[i], i);
+        }
     };
 
 
@@ -343,11 +350,11 @@ var UIController = (function () {
             var fields = document.querySelectorAll(DOMStrings.expensesPercentageLabel);
 
             // making use of a callback function:
-            var nodeListForEach = function (list, callback) {
+            /* var nodeListForEach = function (list, callback) {
                 for (var i = 0; i < list.length; i++) {
                     callback(list[i], i);
                 }
-            };
+            }; */
 
             nodeListForEach(fields, function (current, index) {
                 // when we call nodeListForEach - pass 2 arguments, one being a function :
@@ -365,6 +372,32 @@ var UIController = (function () {
 
             });
 
+
+        },
+
+        displayDate: function() {
+            var now = new Date();
+
+            var year = now.getFullYear();
+            var month = now.getMonth();     //getMonth() is zero based
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December']; 
+
+            document.querySelector(DOMStrings.dateLabel).textContent = months[month] + ', ' + year;
+        },
+
+        changedType: function() {
+
+            var fields = document.querySelectorAll(
+                DOMStrings.inputType + ',' +
+                DOMStrings.inputDescription + ',' +
+                DOMStrings.inputValue);
+
+                nodeListForEach(fields, function(current) {
+                    current.classList.toggle('red-focus'); 
+                });
+
+                document.querySelector(DOMStrings.inputBtn).classList.toggle('red');
 
         },
 
@@ -389,6 +422,8 @@ var controller = (function (budgetCtrl, UICtrl) {
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
         // the arrow tick button to add an item
 
+
+
         document.addEventListener('keypress', function (event) {
 
             // confirm that <ENTER> key was pressed:
@@ -402,6 +437,8 @@ var controller = (function (budgetCtrl, UICtrl) {
         });
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
 
     };
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -493,7 +530,11 @@ var controller = (function (budgetCtrl, UICtrl) {
     return {
         init: function () {
             console.log('application has started');
+            
+            UICtrl.displayDate();
+
             UICtrl.displayBudget({
+            
                 budget: 0,
                 totalInc: 0,
                 totalExp: 0,
