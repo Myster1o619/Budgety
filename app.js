@@ -212,6 +212,7 @@ var UIController = (function () {
         expenseLabel: '.budget__expenses--value',
         percentageLabel: '.budget__expenses--percentage',
         container: '.container',
+        expensesPercentageLabel: '.item__percentage',
     };
 
 
@@ -296,6 +297,36 @@ var UIController = (function () {
 
         },
 
+        displayPercentages: function(percentages) {
+
+            var fields = document.querySelectorAll(DOMStrings.expensesPercentageLabel);
+
+            // making use of a callback function:
+            var nodeListForEach = function(list, callback) {
+                for (var i = 0; i < list.length; i++) {
+                    callback(list[i], i);
+                }
+            };
+
+            nodeListForEach(fields, function(current, index) {
+                // when we call nodeListForEach - pass 2 arguments, one being a function :
+                // an (anonymous function)
+                // 'callback' gets passed the anonymous function 
+                // when callback is called, it is passed two arguments, 'current' and 'index',
+                // as specified in the anonymous function 
+                
+                if (percentages[index] > 0) {
+                    current.textContent = percentages[index] + '%';       
+                } else {
+                    current.textContent = '---';
+                }
+                
+
+            });
+
+            
+        },
+
 
         getDOMStrings: function () {
             return DOMStrings; // make object's items public?
@@ -356,7 +387,7 @@ var controller = (function (budgetCtrl, UICtrl) {
         var percentages = budgetCtrl.getPercentages();
         
         // 3. update UI with new percentages 
-        console.log(percentages);
+        UICtrl.displayPercentages(percentages); 
     };
 
 
